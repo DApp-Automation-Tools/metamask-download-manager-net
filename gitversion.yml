@@ -1,0 +1,28 @@
+mode: ContinuousDeployment
+branches:
+  main:
+    regex: ^main$
+    increment: Inherit
+    prevent-increment-of-merged-branch-version: false
+    is-source-branch-for: []
+    pre-release-weight: 0
+  major:
+    regex: major
+    increment: major
+    source-branches: ['main']
+    tag: ''
+  feature:
+    regex: feature
+    increment: patch
+    source-branches: ['main']
+    tag: ''
+  fix:
+    regex: fix
+    increment: minor
+    source-branches: ['main']
+    tag: ''
+ignore:
+  sha: []
+commit-message-incrementing: Enabled
+merge-message-strategy: MergeMessage
+tag-prefix: 'v'

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Oleksandr Fomenko</Authors>
+    <Company>DApp-Automation-Tools</Company>
+    <Description>MetaMask Download Manager</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/DApp-Automation-Tools/metamask-download-manager-net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DApp-Automation-Tools/metamask-download-manager-net</RepositoryUrl>
+    <RepositoryType>MetaMask</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+</Project>
