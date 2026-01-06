@@ -27,22 +27,28 @@ jobs:
         with:
           versionSpec: '5.x'
       
-      - name: Get branch name from merge
-        id: branch_name
+      - name: Add semver tag to merge commit
         run: |
           # Get the source branch from the merge commit
           MERGE_MSG=$(git log -1 --pretty=%B)
           echo "Merge message: $MERGE_MSG"
-          if [[ $MERGE_MSG =~ Merge\ pull\ request.*from.*/(major[/-][^[:space:]]*) ]]; then
-            echo "increment=major" >> $GITHUB_OUTPUT
-          elif [[ $MERGE_MSG =~ Merge\ pull\ request.*from.*/(feature[/-][^[:space:]]*) ]]; then
-            echo "increment=minor" >> $GITHUB_OUTPUT
-          elif [[ $MERGE_MSG =~ Merge\ pull\ request.*from.*/(fix[/-][^[:space:]]*) ]]; then
-            echo "increment=patch" >> $GITHUB_OUTPUT
-          else
-            echo "increment=none" >> $GITHUB_OUTPUT
+          
+          SEMVER_TAG=""
+          if [[ $MERGE_MSG =~ major[/-] ]]; then
+            SEMVER_TAG="+semver: major"
+          elif [[ $MERGE_MSG =~ feature[/-] ]]; then
+            SEMVER_TAG="+semver: minor"
+          elif [[ $MERGE_MSG =~ fix[/-] ]]; then
+            SEMVER_TAG="+semver: patch"
           fi
-          echo "Selected increment: $increment"
+          
+          if [ ! -z "$SEMVER_TAG" ]; then
+            echo "Adding semver tag: $SEMVER_TAG"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit --amend -m "$MERGE_MSG" -m "$SEMVER_TAG"
+            git push --force-with-lease
+          fi
       
       - name: Determine Version
         id: gitversion
@@ -50,8 +56,6 @@ jobs:
         with:
           useConfigFile: true
           configFilePath: gitversion.yml
-          overrideConfig: |
-            update-build-number=false
       
       - name: Display GitVersion outputs
         run: |
@@ -68,14 +72,14 @@ jobs:
       - name: Pack
         run: dotnet pack --configuration Release --output ./artifacts /p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}
 
-      - name: Publish to NuGet
-        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.gitversion.outputs.nuGetVersionV2 }}
-          name: Release v${{ steps.gitversion.outputs.nuGetVersionV2 }}
-          files: ./artifacts/*.nupkg
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+#      - name: Publish to NuGet
+#        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+#
+#      - name: Create GitHub Release
+#        uses: softprops/action-gh-release@v2
+#        with:
+#          tag_name: v${{ steps.gitversion.outputs.nuGetVersionV2 }}
+#          name: Release v${{ steps.gitversion.outputs.nuGetVersionV2 }}
+#          files: ./artifacts/*.nupkg
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
