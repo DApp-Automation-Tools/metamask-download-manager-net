@@ -1,32 +1,30 @@
-mode: ContinuousDelivery
+mode: Mainline
+assembly-versioning-scheme: MajorMinorPatch
+assembly-file-versioning-scheme: MajorMinorPatch
+tag-prefix: '[vV]'
+major-version-bump-message: '\+semver:\s?(breaking|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+no-bump-message: '\+semver:\s?none'
+commit-message-incrementing: Enabled
 branches:
   main:
     regex: ^main$
-    mode: ContinuousDelivery
-    tag: ''
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
-    source-branches: ['major', 'feature', 'fix']
+    is-mainline: true
   major:
     regex: ^major[/-]
-    mode: ContinuousDelivery
-    tag: alpha
     increment: Major
-    source-branches: []
+    is-mainline: false
   feature:
     regex: ^features?[/-]
-    mode: ContinuousDelivery
-    tag: alpha
     increment: Minor
-    source-branches: []
+    is-mainline: false
   fix:
     regex: ^fix(es)?[/-]
-    mode: ContinuousDelivery
-    tag: alpha
     increment: Patch
-    source-branches: []
+    is-mainline: false
 ignore:
   sha: []
-tag-prefix: '[vV]'
-continuous-delivery-fallback-tag: ci
