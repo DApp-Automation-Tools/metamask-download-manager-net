@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+env:
+  DOTNET_VERSION: '8.0.x'
 
 jobs:
   release:
@@ -18,25 +20,43 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v1
-        with:
-          versionSpec: '5.x'
-
-      - name: Run GitVersion
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v1
-        with:
-          useConfigFile: true
-          configFilePath: gitversion.yml
-
-      - name: Display GitVersion outputs
-        run: |
-          echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
-          echo "NuGetVersion: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
-          echo "Branch: ${{ github.ref_name }}"
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v1.1.1
+      with:
+        versionSpec: '5.x'
+    
+    - name: Get branch name from merge
+      id: branch_name
+      run: |
+        # Get the source branch from the merge commit
+        MERGE_MSG=$(git log -1 --pretty=%B)
+        echo "Merge message: $MERGE_MSG"
+        if [[ $MERGE_MSG =~ Merge\ pull\ request.*from.*/(major[/-][^[:space:]]*) ]]; then
+          echo "increment=major" >> $GITHUB_OUTPUT
+        elif [[ $MERGE_MSG =~ Merge\ pull\ request.*from.*/(feature[/-][^[:space:]]*) ]]; then
+          echo "increment=minor" >> $GITHUB_OUTPUT
+        elif [[ $MERGE_MSG =~ Merge\ pull\ request.*from.*/(fix[/-][^[:space:]]*) ]]; then
+          echo "increment=patch" >> $GITHUB_OUTPUT
+        else
+          echo "increment=none" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Determine Version
+      id: gitversion
+      uses: gittools/actions/gitversion/execute@v1.1.1
+      with:
+        useConfigFile: true
+        configFilePath: GitVersion.yml
+        overrideConfig: |
+          update-build-number=false
+    
+    - name: Display GitVersion outputs
+      run: |
+        echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
+        echo "NuGetVersion: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
+        echo "Branch: ${{ github.ref_name }}"
 
       - name: Restore dependencies
         run: dotnet restore
