@@ -1,8 +1,8 @@
-mode: ContinuousDeployment
+mode: ContinuousDelivery
 branches:
   main:
     regex: ^main$
-    mode: ContinuousDeployment
+    mode: ContinuousDelivery
     tag: ''
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
@@ -10,27 +10,23 @@ branches:
     source-branches: ['major', 'feature', 'fix']
   major:
     regex: ^major[/-]
-    mode: ContinuousDeployment
+    mode: ContinuousDelivery
     tag: alpha
     increment: Major
-    prevent-increment-of-merged-branch-version: true
-    track-merge-target: true
     source-branches: []
   feature:
-    regex: ^feature?[/-]
-    mode: ContinuousDeployment
+    regex: ^features?[/-]
+    mode: ContinuousDelivery
     tag: alpha
     increment: Minor
-    prevent-increment-of-merged-branch-version: true
-    track-merge-target: true
     source-branches: []
   fix:
-    regex: ^fix?[/-]
-    mode: ContinuousDeployment
+    regex: ^fix(es)?[/-]
+    mode: ContinuousDelivery
     tag: alpha
     increment: Patch
-    prevent-increment-of-merged-branch-version: true
-    track-merge-target: true
     source-branches: []
 ignore:
   sha: []
+tag-prefix: '[vV]'
+continuous-delivery-fallback-tag: ci
