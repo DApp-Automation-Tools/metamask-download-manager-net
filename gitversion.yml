@@ -7,17 +7,17 @@ branches:
     is-source-branch-for: []
     pre-release-weight: 0
   major:
-    regex: ^major?[/-]
+    regex: ^major[/-]
     increment: major
     source-branches: ['main']
     tag: ''
   feature:
-    regex: ^feature?[/-]
+    regex: ^feature[/-]
     increment: minor
     source-branches: ['main']
     tag: ''
   fix:
-    regex: ^fix?[/-]
+    regex: ^fix[/-]
     increment: patch
     source-branches: ['main']
     tag: ''
