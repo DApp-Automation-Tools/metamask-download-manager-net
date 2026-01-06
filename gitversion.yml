@@ -3,25 +3,16 @@ branches:
   main:
     regex: ^main$
     increment: Inherit
+    tag: ''
     prevent-increment-of-merged-branch-version: false
-    pre-release-weight: 0
-  major:
-    regex: ^major[/-]
-    increment: major
-    source-branches: ['main']
-    tag: ''
-  feature:
-    regex: ^feature[/-]
-    increment: minor
-    source-branches: ['main']
-    tag: ''
-  fix:
-    regex: ^fix[/-]
-    increment: patch
-    source-branches: ['main']
-    tag: ''
+    track-merge-target: false
+    tracks-release-branches: false
+    is-release-branch: true
 ignore:
   sha: []
+merge-message-formats: {}
+major-version-bump-message: '\+semver:\s?(major|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+increment: Inherit
 commit-message-incrementing: Enabled
-merge-message-strategy: MergeMessage
-tag-prefix: 'v'
