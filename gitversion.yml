@@ -2,17 +2,35 @@ mode: ContinuousDeployment
 branches:
   main:
     regex: ^main$
-    increment: Inherit
+    mode: ContinuousDeployment
     tag: ''
+    increment: Inherit
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
-    tracks-release-branches: false
-    is-release-branch: true
+    source-branches: ['major', 'feature', 'fix']
+  major:
+    regex: ^major[/-]
+    mode: ContinuousDeployment
+    tag: alpha
+    increment: Major
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: true
+    source-branches: []
+  feature:
+    regex: ^feature?[/-]
+    mode: ContinuousDeployment
+    tag: alpha
+    increment: Minor
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: true
+    source-branches: []
+  fix:
+    regex: ^fix?[/-]
+    mode: ContinuousDeployment
+    tag: alpha
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: true
+    source-branches: []
 ignore:
   sha: []
-merge-message-formats: {}
-major-version-bump-message: '\+semver:\s?(major|major)'
-minor-version-bump-message: '\+semver:\s?(feature|minor)'
-patch-version-bump-message: '\+semver:\s?(fix|patch)'
-increment: Inherit
-commit-message-incrementing: Enabled
