@@ -48,7 +48,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v1.1.1
         with:
           useConfigFile: true
-          configFilePath: GitVersion.yml
+          configFilePath: gitversion.yml
           overrideConfig: |
             update-build-number=false
       
