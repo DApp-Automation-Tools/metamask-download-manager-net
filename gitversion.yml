@@ -1,21 +1,18 @@
 mode: ContinuousDeployment
 branches:
   main:
-    increment: None
     regex: ^main$
-    source-branches: ['major', 'feature', 'fix']
-  major:
-    regex: ^major[/-]
-    increment: Major
-    source-branches: ['main']
-  feature:
-    regex: ^feature[/-]
-    increment: Minor
-    source-branches: ['main']
-  fix:
-    regex: ^fix[/-]
-    increment: Patch
-    source-branches: ['main']
+    increment: Inherit
+    tag: ''
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    tracks-release-branches: false
+    is-release-branch: true
 ignore:
   sha: []
 merge-message-formats: {}
+major-version-bump-message: '\+semver:\s?(major|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+increment: Inherit
+commit-message-incrementing: Enabled
