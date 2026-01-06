@@ -95,14 +95,14 @@ jobs:
       - name: Pack
         run: dotnet pack --configuration Release --output ./artifacts /p:PackageVersion=${{ steps.version.outputs.semver }}
 
-#      - name: Publish to NuGet
-#        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
-#
-#      - name: Create GitHub Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          tag_name: v${{ steps.version.outputs.semver }}
-#          name: Release v${{ steps.version.outputs.semver }}
-#          files: ./artifacts/*.nupkg
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Publish to NuGet
+        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.semver }}
+          name: Release v${{ steps.version.outputs.semver }}
+          files: ./artifacts/*.nupkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
