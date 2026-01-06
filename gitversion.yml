@@ -13,24 +13,20 @@ branches:
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
     is-release-branch: true
-    source-branches: []
   major:
     regex: ^major[/-]
     increment: Major
     tag: alpha
     prevent-increment-of-merged-branch-version: true
-    source-branches: ['main']
   feature:
     regex: ^features?[/-]
     increment: Minor
     tag: beta
     prevent-increment-of-merged-branch-version: true
-    source-branches: ['main']
   fix:
     regex: ^fix(es)?[/-]
     increment: Patch
     tag: beta
     prevent-increment-of-merged-branch-version: true
-    source-branches: ['main']
 ignore:
   sha: []
