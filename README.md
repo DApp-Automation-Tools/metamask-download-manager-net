@@ -2,6 +2,10 @@
 
 This C# library allows you to download MetaMask releases directly from GitHub, supporting multiple browsers and handling GitHub API rate limits via token authentication.
 
+|Nuget Package | Statistics |
+|-|-|
+|*MetaMaskDownloadManager*|[![NuGet](https://img.shields.io/nuget/v/MetaMaskDownloadManager.svg)](https://www.nuget.org/packages/MetaMaskDownloadManager/) ![](https://img.shields.io/nuget/dt/MetaMaskDownloadManager)|
+
 ## Features
 
 - Download the latest or a specific version of MetaMask from GitHub.
