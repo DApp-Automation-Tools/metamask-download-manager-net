@@ -2,11 +2,6 @@ mode: Mainline
 assembly-versioning-scheme: MajorMinorPatch
 assembly-file-versioning-scheme: MajorMinorPatch
 tag-prefix: '[vV]'
-major-version-bump-message: '\+semver:\s?(breaking|major)'
-minor-version-bump-message: '\+semver:\s?(feature|minor)'
-patch-version-bump-message: '\+semver:\s?(fix|patch)'
-no-bump-message: '\+semver:\s?none'
-commit-message-incrementing: Enabled
 branches:
   main:
     regex: ^main$
@@ -14,17 +9,21 @@ branches:
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
     is-mainline: true
+    source-branches: []
   major:
     regex: ^major[/-]
     increment: Major
     is-mainline: false
+    source-branches: ['main']
   feature:
     regex: ^features?[/-]
     increment: Minor
     is-mainline: false
+    source-branches: ['main']
   fix:
     regex: ^fix(es)?[/-]
     increment: Patch
     is-mainline: false
+    source-branches: ['main']
 ignore:
   sha: []
