@@ -42,6 +42,7 @@ jobs:
           else
             echo "increment=none" >> $GITHUB_OUTPUT
           fi
+          echo "Selected increment: $increment"
       
       - name: Determine Version
         id: gitversion
