@@ -9,8 +9,13 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/DApp-Automation-Tools/metamask-download-manager-net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DApp-Automation-Tools/metamask-download-manager-net</RepositoryUrl>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>MetaMask</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
+
+  <ItemGroup>
+  	<None Include="README.md" pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
