@@ -86,6 +86,13 @@ class Program
 
 Contributions are welcome! Please fork the repository and submit a pull request.
 
+Branch naming convention:
+- Breaking changes - `major/${meaningful change name}`
+- Significant changes -  `feature/${meaningful change name}`
+- Small insignificant changes or fixes - `fix/${meaningful change name}`
+
+**Branch naming affects versioning!!!**
+
 ## License
 
 This project is licensed under the MIT License.
